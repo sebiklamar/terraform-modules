@@ -1,8 +1,19 @@
+variable "proxmox" {
+  type = object({
+    name         = string
+    cluster_name = string
+    endpoint     = string
+    insecure     = bool
+    username     = string
+    api_token    = string
+  })
+  sensitive = true
+}
+
 variable "image" {
   description = "Talos image configuration"
   type = object({
     factory_url = optional(string, "https://factory.talos.dev")
-    schematic = string
     version   = string
     update_schematic = optional(string)
     update_version = optional(string)
@@ -37,12 +48,4 @@ variable "nodes" {
     update = optional(bool, false)
     igpu = optional(bool, false)
   }))
-}
-
-variable "cilium" {
-  description = "Cilium configuration"
-  type = object({
-    values  = string
-    install = string
-  })
 }
