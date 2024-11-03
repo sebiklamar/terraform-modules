@@ -40,6 +40,7 @@ variable "nodes" {
     host_node     = string
     vm_id         = number
     ip            = string
+    vlan_id       = optional(number, null)
     machine_type  = optional(string, "q35")
     datastore_id  = optional(string, "local-zfs")
     mac_address   = optional(string, null)
