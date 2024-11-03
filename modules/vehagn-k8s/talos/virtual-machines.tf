@@ -1,4 +1,5 @@
 resource "proxmox_virtual_environment_vm" "this" {
+  depends_on = [proxmox_virtual_environment_download_file.orig-image]
   for_each = var.nodes
 
   node_name = each.value.host_node
@@ -12,7 +13,6 @@ resource "proxmox_virtual_environment_vm" "this" {
   machine       = "q35"
   scsi_hardware = "virtio-scsi-single"
   bios          = "seabios"
-  pool_id       = "Test"
 
   agent {
     enabled = true
@@ -20,7 +20,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   cpu {
     cores = each.value.cpu
-    type  = "host"
+    type  = "x86-64-v2-AES"
   }
 
   memory {
@@ -41,8 +41,9 @@ resource "proxmox_virtual_environment_vm" "this" {
     discard      = "on"
     ssd          = true
     file_format  = "raw"
-    size         = 17
-    file_id      = proxmox_virtual_environment_download_file.this["${each.value.host_node}_${each.value.update == true ? local.update_image_id : local.image_id}"].id
+    size         = 20
+    file_id      = each.value.update == true ? proxmox_virtual_environment_download_file.updated-image["${each.value.host_node}_no-schematic-id_${local.update_version}"].id : proxmox_virtual_environment_download_file.orig-image["${each.value.host_node}_no-schematic-id_${local.version}"].id
+    # file_id    = proxmox_virtual_environment_download_file.this["${each.value.host_node}_${each.value.update == true ? local.update_image_id : local.image_id}"].id
   }
 
   boot_order = ["scsi0"]
@@ -61,15 +62,15 @@ resource "proxmox_virtual_environment_vm" "this" {
     }
   }
 
-  # dynamic "hostpci" {
-  #   for_each = each.value.igpu ? [1] : []
-  #   content {
-  #     # Passthrough iGPU
-  #     device  = "hostpci0"
-  #     mapping = "iGPU"
-  #     pcie    = true
-  #     rombar  = true
-  #     xvga    = false
-  #   }
-  # }
+  dynamic "hostpci" {
+    for_each = each.value.igpu ? [1] : []
+    content {
+      # Passthrough iGPU
+      device  = "hostpci0"
+      mapping = "iGPU"
+      pcie    = true
+      rombar  = true
+      xvga    = false
+    }
+  }
 }
