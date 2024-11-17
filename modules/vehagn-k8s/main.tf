@@ -1,13 +1,3 @@
-locals {
-  env      = "poc"
-  vlan_id  = 104
-  ctrl_cpu = 2
-  ctrl_ram = 4096
-  work_cpu = 2
-  work_ram = 4096
-  domain   = "test.iseja.net"
-}
-
 module "talos" {
   source = "./talos"
 
@@ -15,81 +5,17 @@ module "talos" {
     proxmox = proxmox
   }
 
-  image = {
-    version        = "v1.8.1"
-    update_version = "v1.8.2" # renovate: github-releases=siderolabs/talos
-    schematic      = file("${path.module}/talos/image/schematic.yaml")
-  }
-
   cilium = {
     values  = file("${path.module}//talos/inline-manifests/values.yaml")
-    install = file("${path.module}/talos/inline-manifests/cilium-install.yaml")
+    install = file("${path.module}//talos/inline-manifests/cilium-install.yaml")
   }
 
-  cluster = {
-    # ToDo resolve redudundant implementation
-    talos_version   = "v1.8.2"
-    name            = "${local.env}-talos-tg"
-    proxmox_cluster = "iseja-lab"
-    endpoint        = "10.7.4.111"
-    gateway         = "10.7.4.1"
-  }
-
-  nodes = {
-    "${local.env}-ctrl-01.${local.domain}" = {
-      host_node     = "pve2"
-      machine_type  = "controlplane"
-      ip            = "10.7.4.111"
-      vm_id         = 7004111
-      vlan_id       = "${local.vlan_id}"
-      cpu           = "${local.ctrl_cpu}"
-      ram_dedicated = "${local.ctrl_ram}"
-      # update        = true
-    }
-    "${local.env}-ctrl-02.${local.domain}" = {
-      host_node     = "pve2"
-      machine_type  = "controlplane"
-      ip            = "10.7.4.112"
-      vm_id         = 7004112
-      vlan_id       = "${local.vlan_id}"
-      cpu           = "${local.ctrl_cpu}"
-      ram_dedicated = "${local.ctrl_ram}"
-      # update        = true
-    }
-    "${local.env}-ctrl-03.${local.domain}" = {
-      host_node     = "pve2"
-      machine_type  = "controlplane"
-      ip            = "10.7.4.113"
-      vm_id         = 7004113
-      vlan_id       = "${local.vlan_id}"
-      cpu           = "${local.ctrl_cpu}"
-      ram_dedicated = "${local.ctrl_ram}"
-      # update        = true
-    }
-    "${local.env}-work-01.${local.domain}" = {
-      host_node     = "pve2"
-      machine_type  = "worker"
-      ip            = "10.7.4.114"
-      vm_id         = 7004114
-      vlan_id       = "${local.vlan_id}"
-      cpu           = "${local.work_cpu}"
-      ram_dedicated = "${local.work_ram}"
-      # update        = true
-    }
-    "${local.env}-work-02.${local.domain}" = {
-      host_node     = "pve2"
-      machine_type  = "worker"
-      ip            = "10.7.4.115"
-      vm_id         = 7004115
-      vlan_id       = "${local.vlan_id}"
-      cpu           = "${local.work_cpu}"
-      ram_dedicated = "${local.work_ram}"
-      # update        = true
-    }
-  }
-
+  cluster = var.cluster
+  image = var.image
+  nodes = var.nodes
 }
 
+# TODO: implement remaining modules
 # module "sealed_secrets" {
 #   depends_on = [module.talos]
 #   source     = "./bootstrap/sealed-secrets"

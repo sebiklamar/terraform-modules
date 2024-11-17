@@ -1,6 +1,6 @@
 locals {
   version   = var.image.version
-  schematic = file("${path.module}/image/schematic.yaml")
+  schematic = var.image.schematic
   image_id  = "${talos_image_factory_schematic.this.id}_${local.version}"
 
   update_version   = coalesce(var.image.update_version, var.image.version)
