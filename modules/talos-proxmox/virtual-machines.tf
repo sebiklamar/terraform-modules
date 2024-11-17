@@ -1,5 +1,4 @@
 resource "proxmox_virtual_environment_vm" "this" {
-  depends_on = [proxmox_virtual_environment_download_file.orig-image]
   for_each = var.nodes
 
   node_name = each.value.host_node
@@ -42,8 +41,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     ssd          = true
     file_format  = "raw"
     size         = 20
-    file_id      = each.value.update == true ? proxmox_virtual_environment_download_file.updated-image["${each.value.host_node}_no-schematic-id_${local.update_version}"].id : proxmox_virtual_environment_download_file.orig-image["${each.value.host_node}_no-schematic-id_${local.version}"].id
-    # file_id    = proxmox_virtual_environment_download_file.this["${each.value.host_node}_${each.value.update == true ? local.update_image_id : local.image_id}"].id
+    file_id      = proxmox_virtual_environment_download_file.this["${each.value.host_node}_${each.value.update == true ? local.update_version : local.version}"].id
   }
 
   boot_order = ["scsi0"]
