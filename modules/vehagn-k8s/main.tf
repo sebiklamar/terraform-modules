@@ -40,6 +40,7 @@ module "proxmox_csi_plugin" {
   }
 
   proxmox = var.proxmox
+  env     = var.env
 }
 
 module "volumes" {

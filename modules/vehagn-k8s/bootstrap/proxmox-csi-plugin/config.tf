@@ -1,5 +1,9 @@
+locals {
+  env_prefix = var.env == "" ? "" : "${var.env}-"
+}
+
 resource "proxmox_virtual_environment_role" "csi" {
-  role_id = "CSI"
+  role_id = "${local.env_prefix}CSI"
   privileges = [
     "VM.Audit",
     "VM.Config.Disk",
@@ -10,7 +14,7 @@ resource "proxmox_virtual_environment_role" "csi" {
 }
 
 resource "proxmox_virtual_environment_user" "kubernetes-csi" {
-  user_id = "kubernetes-csi@pve"
+  user_id = "${local.env_prefix}kubernetes-csi@pve"
   comment = "User for Proxmox CSI Plugin"
   acl {
     path      = "/"

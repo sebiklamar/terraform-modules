@@ -78,3 +78,9 @@ variable "cilium_values" {
   type        = string
   default     = "talos/inline-manifests/cilium-values.default.yaml"
 }
+
+variable "env" {
+  description = "environment (e.g. prod, qa, dev)"
+  type        = string
+  default     = ""
+}

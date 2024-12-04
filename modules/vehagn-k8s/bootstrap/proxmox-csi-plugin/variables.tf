@@ -5,3 +5,9 @@ variable "proxmox" {
     insecure = bool
   })
 }
+
+variable "env" {
+  description = "environment (e.g. prod, qa, dev)"
+  type        = string
+  default     = ""
+}
