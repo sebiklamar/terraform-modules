@@ -45,6 +45,7 @@ variable "nodes" {
     mac_address   = optional(string, null)
     vm_id         = number
     cpu           = number
+    cpu_type      = optional(string, "x86-64-v2-AES")
     ram_dedicated = number
     update        = optional(bool, false)
     igpu          = optional(bool, false)
