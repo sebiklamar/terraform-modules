@@ -6,7 +6,7 @@ module "talos" {
   }
 
   cilium = {
-    values  = file("${path.module}//talos/inline-manifests/values.yaml")
+    values  = var.cilium_values
     install = file("${path.module}//talos/inline-manifests/cilium-install.yaml")
   }
 

@@ -72,3 +72,9 @@ variable "volumes" {
     })
   )
 }
+
+variable "cilium_values" {
+  description = "path to values.yaml file for cilium install"
+  type        = string
+  default     = "talos/inline-manifests/cilium-values.default.yaml"
+}
