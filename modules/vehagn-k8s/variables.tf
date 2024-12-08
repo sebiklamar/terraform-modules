@@ -53,15 +53,6 @@ variable "nodes" {
   }))
 }
 
-# TODO: allow cilium config as input variable (defined in terragrunt.hcl)
-# variable "cilium" {
-#   description = "Cilium configuration"
-#   type = object({
-#     values  = string
-#     install = string
-#   })
-# }
-
 variable "volumes" {
   type = map(
     object({
