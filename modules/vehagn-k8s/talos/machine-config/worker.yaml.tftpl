@@ -4,3 +4,5 @@ machine:
   nodeLabels:
     topology.kubernetes.io/region: ${cluster_name}
     topology.kubernetes.io/zone: ${node_name}
+  kubelet:
+    registerWithFQDN: true

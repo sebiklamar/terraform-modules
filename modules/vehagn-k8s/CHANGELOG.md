@@ -7,13 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.0] - 2024-12-08
+### Changed
+
+- hosts are registered in k8s with their FQDN (#44)
+  UPGRADE NOTICE: you will need to remove existings hosts registered with their short hostname manually from the (kubernetes) cluster as the FQDN host version will be re-added to the cluster instead of replacing its short hostname counterpart
+  tofu: module.talos.data.talos_cluster_health.this: Still reading... [1m0s elapsed]
+- chore(deps): update terraform kubernetes v2.33.0 → v2.35.0
+- chore(deps): update terraform proxmox v0.67.1 → v0.68.1
+
+# [0.2.0] - 2024-12-08
 
 ### Added
 
 - Keep a Changelog
 - proxmox csi role & user get env-specific prefix, default is empty (e.g. `dev-CSI` and default `CSI`)
-- CPU configurable (default CPU stays `x86-64-v2-AES, though not hard-coded any longer)
+- CPU configurable (default CPU stays `x86-64-v2-AES`, though not hard-coded any longer)
 
 ### Changed
 
@@ -45,10 +53,9 @@ First 0.1 version which is feature-par with upstream terraform module
 - chore(deps): update terraform talos to v0.6.1 (#6)
 - chore(deps): update terraform proxmox to v0.67.1 (#8)
 
-
 ## [0.0.2] - 2024-11-17
 
-### Added 
+### Added
 
 - use variables for node and other env.specific config
 
