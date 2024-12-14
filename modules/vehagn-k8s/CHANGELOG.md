@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- new optional `nodes.[].disk_size` parameter for VM disk size (defaulted to vehagn's `20` GB size)
+
 ### Changed
 
 - hosts are registered in k8s with their FQDN (#44)
