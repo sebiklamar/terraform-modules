@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2024-12-14
+
 ### Added
 
 - new optional `nodes.[].disk_size` parameter for VM disk size (defaulted to vehagn's `20` GB size)
@@ -14,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- hosts are registered in k8s with their FQDN (#44)
+- hosts are registered in k8s with their FQDN (#15)
   UPGRADE NOTICE: you will need to remove existings hosts registered with their short hostname manually from the (kubernetes) cluster as the FQDN host version will be re-added to the cluster instead of replacing its short hostname counterpart (per `kubectl delete node <node-short-hostname>`)
   <br>
   Otherwise you'll get a stalled 
@@ -25,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - update terraform kubernetes v2.33.0 → v2.35.0 (#9, #14)
 - update terraform proxmox v0.67.1 → v0.68.1 (#10)
 
-# [0.2.0] - 2024-12-08
+## [0.2.0] - 2024-12-08
 
 ### Added
 
