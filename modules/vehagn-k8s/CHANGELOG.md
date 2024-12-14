@@ -14,10 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - hosts are registered in k8s with their FQDN (#44)
-  UPGRADE NOTICE: you will need to remove existings hosts registered with their short hostname manually from the (kubernetes) cluster as the FQDN host version will be re-added to the cluster instead of replacing its short hostname counterpart
-  tofu: module.talos.data.talos_cluster_health.this: Still reading... [1m0s elapsed]
-- chore(deps): update terraform kubernetes v2.33.0 → v2.35.0
-- chore(deps): update terraform proxmox v0.67.1 → v0.68.1
+  UPGRADE NOTICE: you will need to remove existings hosts registered with their short hostname manually from the (kubernetes) cluster as the FQDN host version will be re-added to the cluster instead of replacing its short hostname counterpart (per `kubectl delete node <node-short-hostname>`)
+  <br>
+  Otherwise you'll get a stalled 
+  `tofu: module.talos.data.talos_cluster_health.this: Still reading... [10m0s elapsed]`
+
+### Dependencies
+
+- update terraform kubernetes v2.33.0 → v2.35.0 (#9, #14)
+- update terraform proxmox v0.67.1 → v0.68.1 (#10)
 
 # [0.2.0] - 2024-12-08
 
@@ -27,21 +32,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - proxmox csi role & user get env-specific prefix, default is empty (e.g. `dev-CSI` and default `CSI`)
 - CPU configurable (default CPU stays `x86-64-v2-AES`, though not hard-coded any longer)
 
-### Changed
-
-- chore(deps): update dependency cilium/cilium to v1.16.4
-
 ### Fixed
 
 - treat path to cilium values as file (regression, bootstrapping not working)
 
+### Dependencies
+
+- update dependency cilium/cilium v1.16.2 → v1.16.4 (#13)
+
 ## [0.1.0] - 2024-12-04
 
-First 0.1 version which is feature-par with upstream terraform module
+First 0.1 version which is feature-par with upstream terraform module (plus additions)
 
 ### Added
 
-- cilium values configurable: cilium values.yaml can be provided as input variable (`cilium_values`); otherwise an inbuilt default will be used (`talos/inline-manifests/cilium-values.default.yaml`), since as v0.0.1 version
+- cilium values configurable: cilium `values.yaml` can be provided as input variable (`cilium_values`); otherwise an inbuilt default will be used (`talos/inline-manifests/cilium-values.default.yaml`), since as v0.0.1 version
 
 ## [0.0.3] - 2024-11-23
 
@@ -53,9 +58,12 @@ First 0.1 version which is feature-par with upstream terraform module
 ### Changed
 
 - allow 1 controller node only instead of min. 3
-- chore(deps): update terraform kubernetes to v2.33.0 (#7)
-- chore(deps): update terraform talos to v0.6.1 (#6)
-- chore(deps): update terraform proxmox to v0.67.1 (#8)
+
+### Dependencies
+
+- update terraform talos to v0.6.1 (#6)
+- update terraform kubernetes to v2.33.0 (#7)
+- update terraform proxmox to v0.67.1 (#8)
 
 ## [0.0.2] - 2024-11-17
 
@@ -75,12 +83,12 @@ Notable changes to the upstream version are:
 
 ### Added
 
-- `nodes.[].vlan_id` optional parameter
+- optional `nodes.[].vlan_id` parameter for defining VLAN ID
 - install gateway api manifests before cilium deployment (cherry-picking [vehagn/homelab PR 78](https://github.com/vehagn/homelab/pull/78/commits))
 
 ### Changed
 
-- `nodes.[].datastore_id` defaulted to `local-enc` (was `local-zfs`)
+- `nodes.[].datastore_id` defaulted to `local-enc` (was: `local-zfs`)
 - `nodes.[].mac_address` optional
 - changed CPU model to `x86-64-v2-AES` (was: `host`)
 - overwrite existing downloaded file from other module instance, hence limiting clashing with other module instances in the same proxmox cluster
