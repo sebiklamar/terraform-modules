@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - new optional `nodes.[].disk_size` parameter for VM disk size (defaulted to vehagn's `20` GB size)
+- new optional `nodes.[].bridge` parameter for network bridge (defaulted to vehagn's `vmbr0`)
 
 ### Changed
 

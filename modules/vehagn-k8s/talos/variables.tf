@@ -28,16 +28,17 @@ variable "nodes" {
   type = map(object({
     host_node     = string
     machine_type  = string
-    datastore_id  = optional(string, "local-zfs")
     ip            = string
-    mac_address   = optional(string, null)
     vm_id         = number
     cpu           = number
-    cpu_type      = optional(string, "x86-64-v2-AES")
-    disk_size     = optional(number, 20)
     ram_dedicated = number
-    update        = optional(bool, false)
+    bridge        = optional(string, "vmbr0")
+    cpu_type      = optional(string, "x86-64-v2-AES")
+    datastore_id  = optional(string, "local-zfs")
+    disk_size     = optional(number, 20)
     igpu          = optional(bool, false)
+    mac_address   = optional(string, null)
+    update        = optional(bool, false)
     vlan_id       = optional(number, 0)
   }))
 }
