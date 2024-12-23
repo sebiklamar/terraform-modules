@@ -15,6 +15,7 @@ module "proxmox-volume" {
     vmid    = each.value.vmid
     format  = each.value.format
   }
+  env = var.env
 }
 
 module "persistent-volume" {

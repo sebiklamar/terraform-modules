@@ -1,5 +1,6 @@
 locals {
-  filename = "vm-${var.volume.vmid}-${var.volume.name}"
+  env_prefix = var.env == "" ? "" : "${var.env}-"
+  filename = "vm-${var.volume.vmid}-${local.env_prefix}${var.volume.name}"
 }
 
 resource "restapi_object" "proxmox-volume" {

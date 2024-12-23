@@ -50,3 +50,9 @@ variable "cilium" {
     install = string
   })
 }
+
+variable "env" {
+  description = "environment (e.g. prod, qa, dev)"
+  type        = string
+  default     = ""
+}

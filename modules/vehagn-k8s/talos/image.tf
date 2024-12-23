@@ -1,7 +1,8 @@
 locals {
-  version   = var.image.version
-  schematic = var.image.schematic
-  image_id  = "${talos_image_factory_schematic.this.id}_${local.version}"
+  version    = var.image.version
+  schematic  = var.image.schematic
+  image_id   = "${talos_image_factory_schematic.this.id}_${local.version}"
+  env_prefix = var.env == "" ? "" : "${var.env}-"
 
   update_version   = coalesce(var.image.update_version, var.image.version)
   update_schematic = coalesce(var.image.update_schematic, local.schematic)
@@ -29,7 +30,7 @@ resource "proxmox_virtual_environment_download_file" "this" {
   datastore_id = var.image.proxmox_datastore
 
   # ex.: talos-ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515-v1.8.1-nocloud-amd64.img
-  file_name               = "talos-${talos_image_factory_schematic.this.id}-${split("_", each.key)[1]}-${var.image.platform}-${var.image.arch}.img"
+  file_name               = "${local.env_prefix}talos-${talos_image_factory_schematic.this.id}-${split("_", each.key)[1]}-${var.image.platform}-${var.image.arch}.img"
   url                     = "${var.image.factory_url}/image/${talos_image_factory_schematic.this.id}/${split("_", each.key)[1]}/${var.image.platform}-${var.image.arch}.raw.gz"
   decompression_algorithm = "gz"
   overwrite               = false

@@ -13,6 +13,7 @@ module "talos" {
   cluster = var.cluster
   image   = var.image
   nodes   = var.nodes
+  env     = var.env
 }
 
 module "sealed_secrets" {
@@ -53,4 +54,5 @@ module "volumes" {
   }
   proxmox_api = var.proxmox
   volumes     = var.volumes
+  env         = var.env
 }

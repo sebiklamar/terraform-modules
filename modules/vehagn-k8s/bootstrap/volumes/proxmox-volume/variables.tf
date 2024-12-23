@@ -17,3 +17,9 @@ variable "volume" {
     format  = optional(string, "raw")
   })
 }
+
+variable "env" {
+  description = "environment (e.g. prod, qa, dev)"
+  type        = string
+  default     = ""
+}

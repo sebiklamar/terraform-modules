@@ -5,7 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### Problem
+
+- update terraform talos v0.6.1 → v0.7.0 (#18)
+
 ## [Unreleased]
+
+### Changed
+
+- **BREAKING CHANGE:** proxmox volume and downloaded file (talos image) respect the environment (`var.env`) in the volume (e.g. `vm-9999-dev-foo`) and filename (e.g. `dev-talos-<schematic>-v1.8.4-nocloud-amd64.img`) if specified (optionally); there's no known and tested upgrade path other than destroying the whole custer as a change to the download image will re-trigger creation of all VMs: `terragrunt` doesn't have a parameter `-target` for `plan`/`apply` for targeting individual machines instead of all machines affected by a changed image, and there's also no resource `import` function available for the talos provider; for `terraform`/`tofu`-only setups the `-target` approach could be an alternative (untested)
+
+### Dependencies
+
+- update terraform kubernetes v2.35.0 → v2.35.1 (#19)
+- update terraform proxmox v0.68.1 → v0.69.0 (#17)
 
 ## [0.3.0] - 2024-12-14
 
@@ -17,9 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - hosts are registered in k8s with their FQDN (#15)
-  UPGRADE NOTICE: you will need to remove existings hosts registered with their short hostname manually from the (kubernetes) cluster as the FQDN host version will be re-added to the cluster instead of replacing its short hostname counterpart (per `kubectl delete node <node-short-hostname>`)
+  UPGRADE NOTICE: you will need to remove existings hosts registered with their short hostname from the (kubernetes) cluster manually as the FQDN host version will be re-added to the cluster instead of replacing its short hostname counterpart (per `kubectl delete node <node-short-hostname>`)
   <br>
-  Otherwise you'll get a stalled 
+  Otherwise you'll get a stalled
   `tofu: module.talos.data.talos_cluster_health.this: Still reading... [10m0s elapsed]`
 
 ### Dependencies
@@ -32,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Keep a Changelog
-- proxmox csi role & user get env-specific prefix, default is empty (e.g. `dev-CSI` and default `CSI`)
+- proxmox csi role & user get env-specific prefix (per `var.env`), default is empty (e.g. `dev-CSI` and default `CSI`)
 - CPU configurable (default CPU stays `x86-64-v2-AES`, though not hard-coded any longer)
 
 ### Fixed
@@ -76,6 +89,9 @@ First 0.1 version which is feature-par with upstream terraform module (plus addi
 
 ### Changed
 
+**BREAKING CHANGE:**
+
+- requires definition of nodes, cluster, image as variables (or terragrunt input)
 - change default `nodes.[].datastore_id` back to `local-zfs` (was: `local-enc`)
 
 ## [0.0.1] - 2024-11-17
