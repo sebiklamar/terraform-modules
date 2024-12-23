@@ -7,30 +7,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Problem
 
-- update terraform talos v0.6.1 → v0.7.0 (#18)
-
 ## [Unreleased]
+
+- pending issue #20: update terraform talos v0.6.1 → v0.7.0 (#18)
+
+## [1.0.0] - 2024-12-23
 
 ### Changed
 
-- **BREAKING CHANGE:** proxmox volume and downloaded file (talos image) respect the environment (`var.env`) in the volume (e.g. `vm-9999-dev-foo`) and filename (e.g. `dev-talos-<schematic>-v1.8.4-nocloud-amd64.img`) if specified (optionally); there's no known and tested upgrade path other than destroying the whole custer as a change to the download image will re-trigger creation of all VMs: `terragrunt` doesn't have a parameter `-target` for `plan`/`apply` for targeting individual machines instead of all machines affected by a changed image, and there's also no resource `import` function available for the talos provider; for `terraform`/`tofu`-only setups the `-target` approach could be an alternative (untested)
+- **BREAKING CHANGE:** proxmox volume and downloaded file (talos image) respect
+  the environment (`var.env`) in the volume (e.g. `vm-9999-dev-foo`) and
+  filename (e.g. `dev-talos-<schematic>-v1.8.4-nocloud-amd64.img`) if specified
+  (optionally); there's no known and tested upgrade path other than destroying
+  the whole custer as a change to the download image will re-trigger creation of
+  all VMs: `terragrunt` doesn't have a parameter `-target` for `plan`/`apply`
+  for targeting individual machines instead of all machines affected by a
+  changed image, and there's also no resource `import` function available for
+  the talos provider; for `terraform`/`tofu`-only setups the `-target` approach
+  could be an alternative (untested)
 
 ### Dependencies
 
 - update terraform kubernetes v2.35.0 → v2.35.1 (#19)
 - update terraform proxmox v0.68.1 → v0.69.0 (#17)
+- update dependency cilium/cilium v1.16.4 → v1.16.5;
+  beware potential issue with DNS, see siderolabs/talos#10002: Cilium 1.16.5
+  breaks external DNS resolution with forwardKubeDNSToHost enabled)
+)
 
 ## [0.3.0] - 2024-12-14
 
 ### Added
 
-- new optional `nodes.[].disk_size` parameter for VM disk size (defaulted to vehagn's `20` GB size)
-- new optional `nodes.[].bridge` parameter for network bridge (defaulted to vehagn's `vmbr0`)
+- new optional `nodes.[].disk_size` parameter for VM disk size (defaulted to
+  vehagn's `20` GB size)
+- new optional `nodes.[].bridge` parameter for network bridge (defaulted to
+  vehagn's `vmbr0`)
 
 ### Changed
 
 - hosts are registered in k8s with their FQDN (#15)
-  UPGRADE NOTICE: you will need to remove existings hosts registered with their short hostname from the (kubernetes) cluster manually as the FQDN host version will be re-added to the cluster instead of replacing its short hostname counterpart (per `kubectl delete node <node-short-hostname>`)
+  UPGRADE NOTICE: you will need to remove existings hosts registered with their
+  short hostname from the (kubernetes) cluster manually as the FQDN host version
+  will be re-added to the cluster instead of replacing its short hostname
+  counterpart (per `kubectl delete node <node-short-hostname>`)
   <br>
   Otherwise you'll get a stalled
   `tofu: module.talos.data.talos_cluster_health.this: Still reading... [10m0s elapsed]`
@@ -45,8 +65,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Keep a Changelog
-- proxmox csi role & user get env-specific prefix (per `var.env`), default is empty (e.g. `dev-CSI` and default `CSI`)
-- CPU configurable (default CPU stays `x86-64-v2-AES`, though not hard-coded any longer)
+- proxmox csi role & user get env-specific prefix (per `var.env`), default is
+  empty (e.g. `dev-CSI` and default `CSI`)
+- CPU configurable (default CPU stays `x86-64-v2-AES`, though not hard-coded any
+  longer)
 
 ### Fixed
 
@@ -58,18 +80,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] - 2024-12-04
 
-First 0.1 version which is feature-par with upstream terraform module (plus additions)
+First 0.1 version which is feature-par with upstream terraform module (plus
+additions)
 
 ### Added
 
-- cilium values configurable: cilium `values.yaml` can be provided as input variable (`cilium_values`); otherwise an inbuilt default will be used (`talos/inline-manifests/cilium-values.default.yaml`), since as v0.0.1 version
+- cilium values configurable: cilium `values.yaml` can be provided as input
+  variable (`cilium_values`); otherwise an inbuilt default will be used
+  (`talos/inline-manifests/cilium-values.default.yaml`), since as v0.0.1 version
 
 ## [0.0.3] - 2024-11-23
 
 ### Added
 
 - implemented proxmox-csi volumes and sealed secrets
-  (leaving remaining feature configuration of cilium values instead of hard-coding)
+  (leaving remaining feature configuration of cilium values instead of
+  hard-coding)
 
 ### Changed
 
@@ -96,22 +122,29 @@ First 0.1 version which is feature-par with upstream terraform module (plus addi
 
 ## [0.0.1] - 2024-11-17
 
-First implementation of [vehagn/homelab/tofu/kubernetes](https://github.com/vehagn/homelab/commit/4e517fa18656a1d112041516b03a0d8164989123) as dedicated terraform module
+First implementation of
+[vehagn/homelab/tofu/kubernetes](https://github.com/vehagn/homelab/commit/4e517fa18656a1d112041516b03a0d8164989123)
+as dedicated terraform module
 
 Notable changes to the upstream version are:
 
 ### Added
 
 - optional `nodes.[].vlan_id` parameter for defining VLAN ID
-- install gateway api manifests before cilium deployment (cherry-picking [vehagn/homelab PR 78](https://github.com/vehagn/homelab/pull/78/commits))
+- install gateway api manifests before cilium deployment (cherry-picking
+  [vehagn/homelab PR 78](https://github.com/vehagn/homelab/pull/78/commits))
 
 ### Changed
 
 - `nodes.[].datastore_id` defaulted to `local-enc` (was: `local-zfs`)
 - `nodes.[].mac_address` optional
 - changed CPU model to `x86-64-v2-AES` (was: `host`)
-- overwrite existing downloaded file from other module instance, hence limiting clashing with other module instances in the same proxmox cluster
-- implemented initial workaround for `schematic_id` issue (see ) by not depending on the `schematic_id` in the resource id by having 2 instances of `proxmox_virtual_environment_download_file` (impl. option 4, cf. https://github.com/vehagn/homelab/issues/106#issuecomment-2481303369)
+- overwrite existing downloaded file from other module instance, hence limiting
+  clashing with other module instances in the same proxmox cluster
+- implemented initial workaround for `schematic_id` issue (see ) by not
+  depending on the `schematic_id` in the resource id by having 2 instances of
+  `proxmox_virtual_environment_download_file` (impl. option 4, cf.
+  https://github.com/vehagn/homelab/issues/106#issuecomment-2481303369)
 
 ### Removed
 
@@ -121,7 +154,14 @@ Notable changes to the upstream version are:
 
 ### Known Issues
 
-- node configuration hard-coded in module; needs to be moved to input variables in `terragrunt.hcl`
-- sealed secrets and subsequent k8s bootstrapping not working yet - though you get a working k8s cluster (w/ cilium even)
-- cilium values not configurable
-- resources in proxmox clashing with other instances of this module in the same proxmox cluster (due to same name used)
+- [x] node configuration hard-coded in module; needs to be moved to input variables
+  in `terragrunt.hcl`
+  → implemented in v0.0.2
+- [x] sealed secrets and subsequent k8s bootstrapping not working yet - though you
+  get a working k8s cluster (w/ cilium even)
+  → implemented in v0.0.2
+- [x] cilium values not configurable
+  → implemented in v0.2.0
+- [x] resources in proxmox clashing with other instances of this module in the same
+  proxmox cluster (due to same name used)
+  → initial implementation in v0.2.0 and finalized in v1.0.0
