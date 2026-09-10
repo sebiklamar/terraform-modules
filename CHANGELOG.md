@@ -46,8 +46,8 @@ This quality of life release is bringing improvement for the [`cilium_config`](d
 
 ### Fixed
 
-- Fixed an issue where the path specified in the `bootstrap_manifest_path` and `values_file_path` of the [`cilium_config`](docs/variables.md#cilium_config) variable was based on this module's root path instead of the path the module is called from (#232).
-- Fixed an issue where both the `bootstrap_manifest_path` and `values_file_path` of the [`cilium_config`](docs/variables.md#cilium_config) variable had to be maintained, even if only one was needed. Now, it's possible to specify only one (NEW) – in addition to the existing options to specify both or none at all (#233).
+- Fixed an issue where the path specified in the `bootstrap_manifest_path` and `values_file_path` of the [`cilium_config`](docs/variables.md#cilium_config) variable was based on this module's root path instead of the path the module is called from ([#232](https://github.com/isejalabs/terraform-proxmox-talos/issues/232)).
+- Fixed an issue where both the `bootstrap_manifest_path` and `values_file_path` of the [`cilium_config`](docs/variables.md#cilium_config) variable had to be maintained, even if only one was needed. Now, it's possible to specify only one (NEW) – in addition to the existing options to specify both or none at all ([#233](https://github.com/isejalabs/terraform-proxmox-talos/issues/233)).
 
 ## [7.2.2] - 2026-04-11
 
@@ -55,7 +55,7 @@ This quality of life release is fixing an issue with the `csi-proxmox` namespace
 
 ### Fixed
 
-Fixed an issue #228 with the `csi-proxmox` namespace spilling warning messages for pod security despite of the `privileged` label (#229).
+Fixed an issue [#228](https://github.com/isejalabs/terraform-proxmox-talos/issues/228) with the `csi-proxmox` namespace spilling warning messages for pod security despite of the `privileged` label ([#229](https://github.com/isejalabs/terraform-proxmox-talos/issues/229)).
 
 ## [7.2.1] - 2026-03-13
 
@@ -68,16 +68,16 @@ Fixed an issue with the new [`talos_config_patches`](docs/variables.md#talos_con
 ## [7.2.0] - 2026-03-13
 
 This feature release enables you specifying Talos [MachineConfig](https://docs.siderolabs.com/talos/v1.12/reference/configuration/v1alpha1/config) patches in a more flexible way.
-This is especially useful, when the available configuration options given by the [`cluster`](#cluster) variable (e.g. `cluster.api_server`, `cluster.extra_manifests`, `cluster.kubelet` etc.) are not sufficient (e.g. #121, #214). These patches are merged with the default configuration of this module and those of the [`cluster`](#cluster) variable and are applied last. Hence, you can enrich and even override the module configuration further. Typical examples are CSI solutions such as [OpenEBS](https://openebs.io/docs/Solutioning/openebs-on-kubernetes-platforms/talos) and [Longhorn](https://longhorn.io/docs/1.9.0/advanced-resources/os-distro-specific/talos-linux-support/#v2-data-engine) and also general tuning `sysctl` kernel parameters.
+This is especially useful, when the available configuration options given by the [`cluster`](#cluster) variable (e.g. `cluster.api_server`, `cluster.extra_manifests`, `cluster.kubelet` etc.) are not sufficient (e.g. [#121](https://github.com/isejalabs/terraform-proxmox-talos/issues/121), [#214](https://github.com/isejalabs/terraform-proxmox-talos/issues/214)). These patches are merged with the default configuration of this module and those of the [`cluster`](#cluster) variable and are applied last. Hence, you can enrich and even override the module configuration further. Typical examples are CSI solutions such as [OpenEBS](https://openebs.io/docs/Solutioning/openebs-on-kubernetes-platforms/talos) and [Longhorn](https://longhorn.io/docs/1.9.0/advanced-resources/os-distro-specific/talos-linux-support/#v2-data-engine) and also general tuning `sysctl` kernel parameters.
 
 ### Added
 
-- The new [`talos_config_patches`](docs/variables.md#talos_config_patches) variable gives you the option to apply additional Talos [MachineConfig](https://docs.siderolabs.com/talos/v1.12/reference/configuration/v1alpha1/config) patches to controlplane, worker nodes or both (#220).
-- Added a node-specific [`nodes[].talos_config_patches`](docs/variables.md#definition-4) variable which provides a similar functionality as the global-scoped [`talos_config_patches`](docs/variables.md#talos_config_patches) variable (#220).
+- The new [`talos_config_patches`](docs/variables.md#talos_config_patches) variable gives you the option to apply additional Talos [MachineConfig](https://docs.siderolabs.com/talos/v1.12/reference/configuration/v1alpha1/config) patches to controlplane, worker nodes or both ([#220](https://github.com/isejalabs/terraform-proxmox-talos/issues/220)).
+- Added a node-specific [`nodes[].talos_config_patches`](docs/variables.md#definition-4) variable which provides a similar functionality as the global-scoped [`talos_config_patches`](docs/variables.md#talos_config_patches) variable ([#220](https://github.com/isejalabs/terraform-proxmox-talos/issues/220)).
 
 ### Dependencies
 
-- update `terraform proxmox` v0.97.0 → v0.98.1 (#205)
+- update `terraform proxmox` v0.97.0 → v0.98.1 ([#205](https://github.com/isejalabs/terraform-proxmox-talos/issues/205))
 
 Component            | Version
 -------------------- | -------
@@ -106,7 +106,7 @@ This release is mainly fixing an issue with removing `disk` type volumes in Prox
 
 ### Dependencies
 
-- update `terraform proxmox` v0.96.0 → v0.97.0 (#197)
+- update `terraform proxmox` v0.96.0 → v0.97.0 ([#197](https://github.com/isejalabs/terraform-proxmox-talos/issues/197))
 
 | Component            | Version |
 | -------------------- | ------- |
@@ -121,11 +121,11 @@ This release is mainly fixing an issue with removing `disk` type volumes in Prox
 
 ### Changed
 
-- Stop VMs on destroy instead of shutting them down to avoid issues with dangling VMs in Proxmox VE when destroying the cluster with `terraform destroy` (cf. #114).
+- Stop VMs on destroy instead of shutting them down to avoid issues with dangling VMs in Proxmox VE when destroying the cluster with `terraform destroy` (cf. [#114](https://github.com/isejalabs/terraform-proxmox-talos/issues/114)).
 
 ### Added
 
-- Added `smbios` configuration to the VM resource. This helps the Proxmox CSI Driver to identify nodes correctly, thus the plugin will work more reliably and faster (cf. #180). Note: It doesn't remove the need for node labels, and it doesn't free you up guiding deployments with node selectors and affinities, which are still required for the Proxmox CSI Driver to work correctly.
+- Added `smbios` configuration to the VM resource. This helps the Proxmox CSI Driver to identify nodes correctly, thus the plugin will work more reliably and faster (cf. [#180](https://github.com/isejalabs/terraform-proxmox-talos/issues/180)). Note: It doesn't remove the need for node labels, and it doesn't free you up guiding deployments with node selectors and affinities, which are still required for the Proxmox CSI Driver to work correctly.
 
 ## [7.0.0] - 2026-02-24
 
@@ -141,13 +141,13 @@ This module version adds support for Talos v1.12, which comes along with an inco
 
 ### Changed
 
-- **Breaking:** The compatibility changed for this module minor version. The minimum Talos version supported is now v1.12 (#182, #187). See the _Upgrade Note_ and _Compatibility Note_ sections below for further details.
+- **Breaking:** The compatibility changed for this module minor version. The minimum Talos version supported is now v1.12 ([#182](https://github.com/isejalabs/terraform-proxmox-talos/issues/182), [#187](https://github.com/isejalabs/terraform-proxmox-talos/issues/187)). See the _Upgrade Note_ and _Compatibility Note_ sections below for further details.
 
 ### Added
 
-- Added functionality to apply the DNS configuration in Talos via Machine Config (#185). Previously, DNS was configured via Cloud Init in Proxmox only. While this looks redundant, it ensures that Talos itself has a proper DNS configuration, too, and it prepares this module for a potential hybrid scenario.
-- Added support for `directory` type [`volumes`](https://github.com/isejalabs/terraform-proxmox-talos/blob/main/docs/variables.md#volumes) (#188). This is a new volume type introduced in Talos v1.12 (besides `partition` type which is not supported by this module version, yet). This allows to use storage space on the EPHEMERAL partition as volumes in Talos, which can be used for various use cases (e.g. for `hostPath` or for additional space for other CSI solutions (e.g. OpenEBS, Longhorn)). See the [`volumes` variable documentation](https://github.com/isejalabs/terraform-proxmox-talos/blob/main/docs/variables.md#volumes) for further details and examples.
-- Added a dedicated [storage documentation](docs/storage.md) covering the different storage options supported by this module, including their additional configuration needed and special handling (#194, #198).
+- Added functionality to apply the DNS configuration in Talos via Machine Config ([#185](https://github.com/isejalabs/terraform-proxmox-talos/issues/185)). Previously, DNS was configured via Cloud Init in Proxmox only. While this looks redundant, it ensures that Talos itself has a proper DNS configuration, too, and it prepares this module for a potential hybrid scenario.
+- Added support for `directory` type [`volumes`](https://github.com/isejalabs/terraform-proxmox-talos/blob/main/docs/variables.md#volumes) ([#188](https://github.com/isejalabs/terraform-proxmox-talos/issues/188)). This is a new volume type introduced in Talos v1.12 (besides `partition` type which is not supported by this module version, yet). This allows to use storage space on the EPHEMERAL partition as volumes in Talos, which can be used for various use cases (e.g. for `hostPath` or for additional space for other CSI solutions (e.g. OpenEBS, Longhorn)). See the [`volumes` variable documentation](https://github.com/isejalabs/terraform-proxmox-talos/blob/main/docs/variables.md#volumes) for further details and examples.
+- Added a dedicated [storage documentation](docs/storage.md) covering the different storage options supported by this module, including their additional configuration needed and special handling ([#194](https://github.com/isejalabs/terraform-proxmox-talos/issues/194), [#198](https://github.com/isejalabs/terraform-proxmox-talos/issues/198)).
 
 ### Compatibility Note
 
@@ -161,9 +161,9 @@ The module now supports Talos v1.12 and newer, and is incompatible with Talos v1
 
 ### Dependencies
 
-- update `cilium/cilium` v1.18.4 → v1.18.7 (#201)
-- update `terraform proxmox` v0.89.1 → v0.96.0 (#199)
-- update `terraform talos` v0.9.0 → v0.10.1 (#185)
+- update `cilium/cilium` v1.18.4 → v1.18.7 ([#201](https://github.com/isejalabs/terraform-proxmox-talos/issues/201))
+- update `terraform proxmox` v0.89.1 → v0.96.0 ([#199](https://github.com/isejalabs/terraform-proxmox-talos/issues/199))
+- update `terraform talos` v0.9.0 → v0.10.1 ([#185](https://github.com/isejalabs/terraform-proxmox-talos/issues/185))
 
 | Component            | Version |
 | -------------------- | ------- |
@@ -185,7 +185,7 @@ This release is fixing an issue with `disk` type volumes. The module is still li
 
 ### Fixed
 
-- **Breaking possibly:** Fixed an issue for `disk` type where `volumes[].datastore` was not properly defaulting to the VM's datastore (`nodes[].datastore`) if not specified explicetely (#179).
+- **Breaking possibly:** Fixed an issue for `disk` type where `volumes[].datastore` was not properly defaulting to the VM's datastore (`nodes[].datastore`) if not specified explicetely ([#179](https://github.com/isejalabs/terraform-proxmox-talos/issues/179)).
 
 ### Compatibility Note
 
@@ -197,7 +197,7 @@ This is a patch release fixing an issue with `disk` type volumes. The module is 
 
 ### Fixed
 
-- Fixed issue #177 where a `disk` type volume got interpreted as proxmox-csi volume, causing an error during `terraform plan` (#178).
+- Fixed issue [#177](https://github.com/isejalabs/terraform-proxmox-talos/issues/177) where a `disk` type volume got interpreted as proxmox-csi volume, causing an error during `terraform plan` ([#178](https://github.com/isejalabs/terraform-proxmox-talos/issues/178)).
 
 ### Compatibility Note
 
@@ -216,7 +216,7 @@ The module is limited to Talos v1.10 (or v1.11 when using the `disk` feature) as
 
 ### Changed
 
-- **Breaking:** Split up disk setup and VM into 2 disks and 2 VMs (#144). As this change is destroying the former primary disk, please consult the **Upgrade Note** below for further instructions.
+- **Breaking:** Split up disk setup and VM into 2 disks and 2 VMs ([#144](https://github.com/isejalabs/terraform-proxmox-talos/issues/144)). As this change is destroying the former primary disk, please consult the **Upgrade Note** below for further instructions.
 
   The new VM and disk architecture is as follows (cf. [VM architecture documentation](docs/vms.md#separation-of-talos-vm-and-data-vm)):
   - Main/Talos VM is holding primary (existing) disk with Talos OS (with EFI,
@@ -236,19 +236,19 @@ The module is limited to Talos v1.10 (or v1.11 when using the `disk` feature) as
   - Easier upgrades of Talos OS by just replacing the Talos VM's disk while keeping the data disks untouched (similar to a `talosctl upgrade --preserve=true`). Hence, Talos OS upgrades do not destroy `etcd` or any other data any longer.
   - No need for more than one controlplane node as `etcd` is kept in a single CP node setup.
 
-- **Breaking:** Renamed variable `image.proxmox_datastore` to `image.datastore` (#148, #153).
-- **Breaking:** Renamed variable `nodes[].datastore_id` to `nodes[].datastore` (#148, #153).
-- **Breaking:** Renamed variable `volumes[].storage` to `volumes[].datastore` (#154).
+- **Breaking:** Renamed variable `image.proxmox_datastore` to `image.datastore` ([#148](https://github.com/isejalabs/terraform-proxmox-talos/issues/148), [#153](https://github.com/isejalabs/terraform-proxmox-talos/issues/153)).
+- **Breaking:** Renamed variable `nodes[].datastore_id` to `nodes[].datastore` ([#148](https://github.com/isejalabs/terraform-proxmox-talos/issues/148), [#153](https://github.com/isejalabs/terraform-proxmox-talos/issues/153)).
+- **Breaking:** Renamed variable `volumes[].storage` to `volumes[].datastore` ([#154](https://github.com/isejalabs/terraform-proxmox-talos/issues/154)).
 
 ### Added
 
-- Added possibility to define addtional **data disks** (#175). An additional data disk can be be used e.g. for `hostPath` or for additional space for other CSI solutions (e.g. OpenEBS, Longhorn). This feature leverages the `User Volume` feature introduced in [Talos v1.11](https://docs.siderolabs.com/talos/v1.11/configure-your-talos-cluster/storage-and-disk-management/disk-management/user). See the enriched [`volumes` variable documentation](https://github.com/isejalabs/terraform-proxmox-talos/blob/main/docs/variables.md#volumes) – which, BTW, is indicating support for further Volume Types `directory` (#161) and `partition` (#162) in future releases (#159) based on Talos v1.12.
+- Added possibility to define addtional **data disks** ([#175](https://github.com/isejalabs/terraform-proxmox-talos/issues/175)). An additional data disk can be be used e.g. for `hostPath` or for additional space for other CSI solutions (e.g. OpenEBS, Longhorn). This feature leverages the `User Volume` feature introduced in [Talos v1.11](https://docs.siderolabs.com/talos/v1.11/configure-your-talos-cluster/storage-and-disk-management/disk-management/user). See the enriched [`volumes` variable documentation](https://github.com/isejalabs/terraform-proxmox-talos/blob/main/docs/variables.md#volumes) – which, BTW, is indicating support for further Volume Types `directory` ([#161](https://github.com/isejalabs/terraform-proxmox-talos/issues/161)) and `partition` ([#162](https://github.com/isejalabs/terraform-proxmox-talos/issues/162)) in future releases ([#159](https://github.com/isejalabs/terraform-proxmox-talos/issues/159)) based on Talos v1.12.
 - Documented [how to upgrade](docs/upgrade%20methods.md) several aspects of the Talos cluster (e.g. upgrade Talos OS version, Kubernetes version, terraform module version, incl. breaking changes and resource targeting).
 - Documented the new VM architecture with [separation of Talos VM and Data VM](docs/vms.md#separation-of-talos-vm-and-data-vm).
 
 ### Fixed
 
-- Fixed definition of `volumes` variable to allow no volume getting specified (#166).
+- Fixed definition of `volumes` variable to allow no volume getting specified ([#166](https://github.com/isejalabs/terraform-proxmox-talos/issues/166)).
 
 ### Compatibility Note
 
@@ -266,7 +266,7 @@ The minimum Talos version requirement changed due to the new disk management fea
 
 ### Dependencies
 
-- update `terraform talos` v0.82.0 → v0.89.1 (#143)
+- update `terraform talos` v0.82.0 → v0.89.1 ([#143](https://github.com/isejalabs/terraform-proxmox-talos/issues/143))
 
 | Component            | Version |
 | -------------------- | ------- |
@@ -282,13 +282,13 @@ The minimum Talos version requirement changed due to the new disk management fea
 ### Fixed
 
 - Added missing `Sys.Audit` PVE role permission, needed by `proxmox-csi-plugin`
-  version `v0.16.0` (Helm chart version `v0.5.0`) onwards (#140)
+  version `v0.16.0` (Helm chart version `v0.5.0`) onwards ([#140](https://github.com/isejalabs/terraform-proxmox-talos/issues/140))
 - Added additional PVE role permissions for supporting (zfs) replication feature
 
 ### Dependencies
 
-- update `cilium/cilium` v1.18.2 → v1.18.4 (#132, #133)
-- update `cilium/cilium-cli` v0.18.7 → v0.18.9 (#131, #138)
+- update `cilium/cilium` v1.18.2 → v1.18.4 ([#132](https://github.com/isejalabs/terraform-proxmox-talos/issues/132), [#133](https://github.com/isejalabs/terraform-proxmox-talos/issues/133))
+- update `cilium/cilium-cli` v0.18.7 → v0.18.9 ([#131](https://github.com/isejalabs/terraform-proxmox-talos/issues/131), [#138](https://github.com/isejalabs/terraform-proxmox-talos/issues/138))
 
 | Component            | Version |
 | -------------------- | ------- |
@@ -311,9 +311,9 @@ While this is a release with breaking changes which need your attention in confi
 ### Changed
 
 - **Breaking:** Moved `proxmox.api_token` variable out of `promox` struct into
-  a separate variable `proxmox_api_token` (#95).
+  a separate variable `proxmox_api_token` ([#95](https://github.com/isejalabs/terraform-proxmox-talos/issues/95)).
 - **Breaking:** Renamed variable `cluster.talos_version` to
-  `cluster.talos_machine_config_version` (#101).
+  `cluster.talos_machine_config_version` ([#101](https://github.com/isejalabs/terraform-proxmox-talos/issues/101)).
 - **Breaking:** Renamed variable `image.schematic` to
   `image.schematic_path`.
 - **Breaking:** Renamed variable `image.update_schematic` to
@@ -324,9 +324,9 @@ While this is a release with breaking changes which need your attention in confi
   Please also see below for an additional sub-variable for governing cilium
   bootstrapping.
 - **Breaking possibly:** Do not allow scheduling of workloads on control plane
-  nodes, per default. Also made this configurable (cf. #124).
+  nodes, per default. Also made this configurable (cf. [#124](https://github.com/isejalabs/terraform-proxmox-talos/issues/124)).
 - Changed variable `cluster.talos_machine_config_version` (former
-  `cluster.talos_version`) to be _optional_ (#94, #98).
+  `cluster.talos_version`) to be _optional_ ([#94](https://github.com/isejalabs/terraform-proxmox-talos/issues/94), [#98](https://github.com/isejalabs/terraform-proxmox-talos/issues/98)).
 
 ### Added
 
@@ -336,34 +336,34 @@ While this is a release with breaking changes which need your attention in confi
 - **Breaking:** Added _mandatory_ variable `cluster.kubernetes_version` to
   track k8s version.
 - Added _optional_ variable `cilium_config.bootstrap_manifest_path` allowing
-  usage of a custom Cilium bootstrapping manifest (#95).
+  usage of a custom Cilium bootstrapping manifest ([#95](https://github.com/isejalabs/terraform-proxmox-talos/issues/95)).
 - Added _optional_ variable `cluster.allow_scheduling_on_controlplane` to
-  allow scheduling of workloads on control plane nodes (#124).
+  allow scheduling of workloads on control plane nodes ([#124](https://github.com/isejalabs/terraform-proxmox-talos/issues/124)).
 - Added _optional_ variable `cluster.api_server` to define kube apiserver
   options (cf. [Talos apiServerConfig](https://www.talos.dev/v1.11/kubernetes-guides/configuration/inlinemanifests/#extramanifests)
-  documentation)(#91).
+  documentation)([#91](https://github.com/isejalabs/terraform-proxmox-talos/issues/91)).
 - Added _optional_ variable `cluster.extra_manifests` to specify
   [`extraManifests`](https://www.talos.dev/v1.11/kubernetes-guides/configuration/inlinemanifests/#extramanifests)
-  in Talos (#96).
+  in Talos ([#96](https://github.com/isejalabs/terraform-proxmox-talos/issues/96)).
 - Added _optional_ variable `cluster.kubelet` to define kubelet config values,
   cf. [Talos kubeletConfig](https://www.talos.dev/v1.11/reference/configuration/v1alpha1/config/#Config.machine.kubelet)
-  documentation)(#97).
+  documentation)([#97](https://github.com/isejalabs/terraform-proxmox-talos/issues/97)).
 - Added _optional_ variable `cluster.machine_features` to adjust individual
   Talos features, cf. [Talos featuresConfig](https://www.talos.dev/v1.11/reference/configuration/v1alpha1/config/#Config.machine.features)
-  documentation)(#127).
+  documentation)([#127](https://github.com/isejalabs/terraform-proxmox-talos/issues/127)).
 - Added _optional_ variable `cluster.subnet_mask` for defining the network
-  subnet mask (defaulting to `24`) (#86).
+  subnet mask (defaulting to `24`) ([#86](https://github.com/isejalabs/terraform-proxmox-talos/issues/86)).
 - Added _optional_ variable `cluster.vip` for leveraging a
   [Virtual (shared) IP](https://www.talos.dev/v1.11/talos-guides/network/vip/)
-  (#86, #93).
+  ([#86](https://github.com/isejalabs/terraform-proxmox-talos/issues/86), [#93](https://github.com/isejalabs/terraform-proxmox-talos/issues/93)).
   This allows HA usage scenarios in providing only one IP to clients to reach
   the control planes (requires all control planes residing in the same layer 2
   subnet).
 - Added _optional_ variable `sealed_secrets_config` that can be supplied with
   alternative paths to the certificate and key for the `SealedSecrets`
-  bootstrapping (#95). The default paths equal the present behaviour.
-- Enabled kube-controller-manager, etcd, and kube-scheduler metrics (#116).
-- Output Talos Machine Secrets (#102).
+  bootstrapping ([#95](https://github.com/isejalabs/terraform-proxmox-talos/issues/95)). The default paths equal the present behaviour.
+- Enabled kube-controller-manager, etcd, and kube-scheduler metrics ([#116](https://github.com/isejalabs/terraform-proxmox-talos/issues/116)).
+- Output Talos Machine Secrets ([#102](https://github.com/isejalabs/terraform-proxmox-talos/issues/102)).
 - Provide examples also for optional variables in the respective _Examples_
   sections.
 
@@ -383,15 +383,15 @@ While this is a release with breaking changes which need your attention in confi
 
 ### Fixed
 
-- Improved the way to install cilium with `inlineManifests` (#92).
+- Improved the way to install cilium with `inlineManifests` ([#92](https://github.com/isejalabs/terraform-proxmox-talos/issues/92)).
 - Use `cilium-cli` image instead of `cilium-cli-ci` image to install cilium
-  (#103).
+  ([#103](https://github.com/isejalabs/terraform-proxmox-talos/issues/103)).
 - Remove outdated `enableCiliumEndpointSlice` stanza from default cilium Helm
   configuration. This stanza got superseded by `CiliumEndpointSlice.enabled`,
   hence this should be a null-operation as it had no effect previously.
 - Changing the `cluster.talos_machine_config_version` (former
   `cluster.talos_version`) variable does not destroy all VM nodes any longer
-  (#38, #90).
+  ([#38](https://github.com/isejalabs/terraform-proxmox-talos/issues/38), [#90](https://github.com/isejalabs/terraform-proxmox-talos/issues/90)).
 
 ### Dependencies
 
@@ -413,7 +413,7 @@ While this is a release with breaking changes which need your attention in confi
 
 ### Changed
 
-- **Breaking possibly:** The `on_boot` parameter got moved from the `nodes` variable to the `cluster` variable for controlling VM startup during boot (#115). It makes more sense setting it for all VMs used in a cluster.
+- **Breaking possibly:** The `on_boot` parameter got moved from the `nodes` variable to the `cluster` variable for controlling VM startup during boot ([#115](https://github.com/isejalabs/terraform-proxmox-talos/issues/115)). It makes more sense setting it for all VMs used in a cluster.
 
 If you used the `on_boot` parameter before, you need to move it from the `nodes` variable to the `cluster` variable.
 
@@ -429,20 +429,20 @@ If you used the `on_boot` parameter before, you need to move it from the `nodes`
 - **Breaking:** The VM image now respects the schematic id and thus allows safe
   changes/upgrades of the schematic definition going further. While this
   fixes the workaround introduced in v0.0.1, it is a breaking change, which destroys and recreates all Talos VMs. See the upgrade notes how to apply a rolling upgrade.
-- Update GW API version v1.1.0 → v1.2.1 (#109).
+- Update GW API version v1.1.0 → v1.2.1 ([#109](https://github.com/isejalabs/terraform-proxmox-talos/issues/109)).
   See also [GW API v1.2 upgrade notes](https://gateway-api.sigs.k8s.io/guides/#v12-upgrade-notes)
 
 ### Added
 
-- Add optional `dns` configuration for cluster nodes (#110)
-- Add optional `on_boot` variable to control VM startup during boot (#112)
+- Add optional `dns` configuration for cluster nodes ([#110](https://github.com/isejalabs/terraform-proxmox-talos/issues/110))
+- Add optional `on_boot` variable to control VM startup during boot ([#112](https://github.com/isejalabs/terraform-proxmox-talos/issues/112))
 - Created modules documentation (auto-generated) and a more elaborated documentation
   for the variables, including examples (cf. `docs/` folder).
 
 ### Dependencies
 
-- update `cilium/cilium` v1.18.0 → v1.18.1 (#82)
-- update `terraform proxmox` v0.81.0 → v0.82.0 (#100)
+- update `cilium/cilium` v1.18.0 → v1.18.1 ([#82](https://github.com/isejalabs/terraform-proxmox-talos/issues/82))
+- update `terraform proxmox` v0.81.0 → v0.82.0 ([#100](https://github.com/isejalabs/terraform-proxmox-talos/issues/100))
 
 ## [2.1.0] - 2025-08-10
 
@@ -456,7 +456,7 @@ If you used the `on_boot` parameter before, you need to move it from the `nodes`
 ### Changed
 
 - Disable Talos' `forwardKubeDNSToHost` setting b/c it's incompatible with the
-  cilium's `bpf.masquerade` option (#77).
+  cilium's `bpf.masquerade` option ([#77](https://github.com/isejalabs/terraform-proxmox-talos/issues/77)).
   This change is only required for consumers who have `bpf.masquerade` option
   enabled in their cilium `values.yaml` -- which it is not in this module's
   default version supplied (which can get overriden per input variable
@@ -464,18 +464,18 @@ If you used the `on_boot` parameter before, you need to move it from the `nodes`
   As this module does not allow altering the Talos machine configuration, yet,
   consumers depend on a decent default configuration of the module. Hence,
   altering the default setting in this module and planning to make the Talos
-  machine configurable per module (#79).
+  machine configurable per module ([#79](https://github.com/isejalabs/terraform-proxmox-talos/issues/79)).
 
 ### Removed
 
 - Removed unused `ingressController` config in cilium defaults;
-  as `ingressController` was disabled anyway, this is a cosmetic change (#48)
+  as `ingressController` was disabled anyway, this is a cosmetic change ([#48](https://github.com/isejalabs/terraform-proxmox-talos/issues/48))
 
 ### Dependencies
 
-- update cilium/cilium v1.16.5 → v1.18.0 (#74 et al.)
-- update terraform kubernetes v2.35.1 → v2.38.0 (#73 et al.)
-- update terraform proxmox v0.69.0 → v0.81.0 (#75 et al.)
+- update cilium/cilium v1.16.5 → v1.18.0 ([#74](https://github.com/isejalabs/terraform-proxmox-talos/issues/74) et al.)
+- update terraform kubernetes v2.35.1 → v2.38.0 ([#73](https://github.com/isejalabs/terraform-proxmox-talos/issues/73) et al.)
+- update terraform proxmox v0.69.0 → v0.81.0 ([#75](https://github.com/isejalabs/terraform-proxmox-talos/issues/75) et al.)
 
 ## [2.0.1] - 2025-01-16
 
@@ -521,10 +521,10 @@ No further code changes, i.e. functionality equals the `v1.0.0` version.
 
 ### Dependencies
 
-- update terraform kubernetes v2.35.0 → v2.35.1 (#19)
-- update terraform proxmox v0.68.1 → v0.69.0 (#17)
+- update terraform kubernetes v2.35.0 → v2.35.1 ([#19](https://github.com/isejalabs/terraform-proxmox-talos/issues/19))
+- update terraform proxmox v0.68.1 → v0.69.0 ([#17](https://github.com/isejalabs/terraform-proxmox-talos/issues/17))
 - update dependency cilium/cilium v1.16.4 → v1.16.5;
-  beware potential issue with DNS, see siderolabs/talos#10002: Cilium 1.16.5
+  beware potential issue with DNS, see [siderolabs/talos#10002](https://redirect.github.com/siderolabs/talos/issues/10002): Cilium 1.16.5
   breaks external DNS resolution with forwardKubeDNSToHost enabled)
 
 ## [0.3.0] - 2024-12-14
@@ -538,7 +538,7 @@ No further code changes, i.e. functionality equals the `v1.0.0` version.
 
 ### Changed
 
-- hosts are registered in k8s with their FQDN (#15)
+- hosts are registered in k8s with their FQDN ([#15](https://github.com/isejalabs/terraform-proxmox-talos/issues/15))
   UPGRADE NOTICE: you will need to remove existings hosts registered with their
   short hostname from the (kubernetes) cluster manually as the FQDN host version
   will be re-added to the cluster instead of replacing its short hostname
@@ -549,8 +549,8 @@ No further code changes, i.e. functionality equals the `v1.0.0` version.
 
 ### Dependencies
 
-- update terraform kubernetes v2.33.0 → v2.35.0 (#9, #14)
-- update terraform proxmox v0.67.1 → v0.68.1 (#10)
+- update terraform kubernetes v2.33.0 → v2.35.0 ([#9](https://github.com/isejalabs/terraform-proxmox-talos/issues/9), [#14](https://github.com/isejalabs/terraform-proxmox-talos/issues/14))
+- update terraform proxmox v0.67.1 → v0.68.1 ([#10](https://github.com/isejalabs/terraform-proxmox-talos/issues/10))
 
 ## [0.2.0] - 2024-12-08
 
@@ -568,7 +568,7 @@ No further code changes, i.e. functionality equals the `v1.0.0` version.
 
 ### Dependencies
 
-- update dependency cilium/cilium v1.16.2 → v1.16.4 (#13)
+- update dependency cilium/cilium v1.16.2 → v1.16.4 ([#13](https://github.com/isejalabs/terraform-proxmox-talos/issues/13))
 
 ## [0.1.0] - 2024-12-04
 
@@ -595,9 +595,9 @@ additions)
 
 ### Dependencies
 
-- update terraform talos to v0.6.1 (#6)
-- update terraform kubernetes to v2.33.0 (#7)
-- update terraform proxmox to v0.67.1 (#8)
+- update terraform talos to v0.6.1 ([#6](https://github.com/isejalabs/terraform-proxmox-talos/issues/6))
+- update terraform kubernetes to v2.33.0 ([#7](https://github.com/isejalabs/terraform-proxmox-talos/issues/7))
+- update terraform proxmox to v0.67.1 ([#8](https://github.com/isejalabs/terraform-proxmox-talos/issues/8))
 
 ## [0.0.2] - 2024-11-17
 
@@ -637,7 +637,7 @@ Notable changes to the upstream version are:
 - overwrite existing downloaded file from other module instance, hence limiting
   clashing with other module instances in the same proxmox cluster
 - implemented initial workaround for `schematic_id` issue (see
-  vehagn/homelab#106) by not depending on the `schematic_id` in the resource id
+  [vehagn/homelab#106](https://redirect.github.com/vehagn/homelab/issues/106)) by not depending on the `schematic_id` in the resource id
   by having 2 instances of `proxmox_virtual_environment_download_file`
   (impl. option 4, cf.
   https://github.com/vehagn/homelab/issues/106#issuecomment-2481303369)
