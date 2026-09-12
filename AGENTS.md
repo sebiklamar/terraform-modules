@@ -2,6 +2,8 @@
 
 This file provides guidance to AI coding agents (Claude Code, and others reading `AGENTS.md`) when working with code in this repository. `CLAUDE.md` is a symlink to this file.
 
+@.commons/agents/AGENTS.common.md
+
 ## About
 
 This is a `terraform`/`tofu` **module** (not a standalone deployable stack) that provisions a Kubernetes cluster on Proxmox VE using Talos Linux as the node OS. It creates Proxmox VMs, generates Talos machine configuration, bootstraps the cluster, and installs core infrastructure: Cilium (CNI), Gateway API, Proxmox CSI Plugin (storage), and Sealed Secrets.
